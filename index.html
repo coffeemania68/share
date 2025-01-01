@@ -293,11 +293,20 @@
         }
 
         // 로컬 스토리지에서 불러오기
-       function loadFromLocalStorage() {
+function loadFromLocalStorage() {
     const items = JSON.parse(localStorage.getItem('bucketList2025') || '[]');
     const container = document.getElementById('bucketListItems');
     container.innerHTML = '';
 
+    // 환영 메시지 추가
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.className = 'bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg mb-4 text-center shadow-sm';
+    welcomeDiv.innerHTML = `
+        <p class="text-gray-700 font-medium">기록이 현실이 되는 순간, 2025</p>
+    `;
+    container.appendChild(welcomeDiv);
+
+    // 저장된 아이템들 로드
     items.forEach(item => {
         const itemId = 'item-' + Date.now();
         const itemDiv = document.createElement('div');
@@ -325,6 +334,14 @@
         `;
         container.appendChild(itemDiv);
     });
+
+    // 아이템이 없는 경우 안내 메시지 추가
+    if (items.length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'text-center text-gray-500 py-4';
+        emptyMessage.innerHTML = '새로운 목표를 추가해보세요!';
+        container.appendChild(emptyMessage);
+    }
 }
 
         // 주차 추가
