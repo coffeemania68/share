@@ -208,6 +208,17 @@
         </ul>
     </div>
 </div>
+
+<div class="flex justify-end space-x-2 mb-4">
+    <button onclick="exportData()" 
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+        <span>💾 데이터 백업</span>
+    </button>
+    <label class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg cursor-pointer flex items-center">
+        <span>📥 백업 복원</span>
+        <input type="file" onchange="importData(this.files[0])" class="hidden" accept=".json">
+    </label>
+</div>
     
 <div class="max-w-4xl mx-auto p-4">
     <!-- 버킷리스트 섹션 -->
@@ -303,19 +314,49 @@
             }
         }
 
-        // 로컬 스토리지에 저장
-        function saveToLocalStorage() {
-            const items = [];
-            document.querySelectorAll('#bucketListItems > div').forEach(item => {
+// 로컬 스토리지에 저장
+function saveToLocalStorage() {
+    try {
+        const items = [];
+        document.querySelectorAll('#bucketListItems > div').forEach(item => {
+            if (item.querySelector('input[type="text"]')) {  // 텍스트 입력란이 있는 항목만 저장
                 const text = item.querySelector('input[type="text"]').value;
                 const checks = Array.from(item.querySelectorAll('input[type="checkbox"]'))
                                   .map(cb => cb.checked);
                 items.push({ text, checks });
-            });
-            localStorage.setItem('bucketList2025', JSON.stringify(items));
-        }
+            }
+        });
+        localStorage.setItem('bucketList2025', JSON.stringify(items));
+        return true;
+    } catch (error) {
+        console.error('저장 실패:', error);
+        showSaveStatus('저장 중 문제가 발생했습니다', 'error');
+        return false;
+    }
+}
 
-        // 로컬 스토리지에서 불러오기
+// 저장 상태 표시 함수
+function showSaveStatus(message) {
+    const status = document.createElement('div');
+    status.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg transition-opacity duration-500';
+    status.textContent = message;
+    document.body.appendChild(status);
+    setTimeout(() => status.remove(), 1500);
+}
+
+// 자동 저장 이벤트
+document.addEventListener('blur', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        saveToLocalStorage();
+        showSaveStatus('저장되었습니다');
+    }
+}, true);
+
+window.addEventListener('beforeunload', () => {
+    saveToLocalStorage();
+});
+
+// 로컬 스토리지에서 불러오기
 function loadFromLocalStorage() {
     const items = JSON.parse(localStorage.getItem('bucketList2025') || '[]');
     const container = document.getElementById('bucketListItems');
@@ -357,6 +398,7 @@ function loadFromLocalStorage() {
         `;
         container.appendChild(itemDiv);
     });
+}
 
     // 아이템이 없는 경우 안내 메시지 추가
     if (items.length === 0) {
@@ -469,19 +511,193 @@ function loadFromLocalStorage() {
                 selectedPlanner.classList.remove('active-month');
             }
         }
+// 월별 데이터 저장
+function saveMonthlyData(month) {
+    const monthContent = document.getElementById(`month-${month}-content`);
+    if (!monthContent) return;
 
-        // 초기화
-        document.addEventListener('DOMContentLoaded', () => {
-            createClovers();
-            createMonthlyPlanners();
-            loadFromLocalStorage();
-            if (document.querySelectorAll('#bucketListItems > div').length === 0) {
-                addBucketListItem();
+    const monthlyGoal = monthContent.querySelector('textarea').value;
+    const weeklyPlans = Array.from(monthContent.querySelectorAll('.week-planner')).map(week => ({
+        weekNumber: week.querySelector('h4').textContent,
+        plan: week.querySelector('textarea').value
+    }));
+
+    localStorage.setItem(`month-${month}-2025`, JSON.stringify({
+        monthlyGoal,
+        weeklyPlans
+    }));
+}
+
+// 월별 데이터 불러오기
+function loadMonthlyData(month) {
+    const savedData = localStorage.getItem(`month-${month}-2025`);
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        const monthContent = document.getElementById(`month-${month}-content`);
+        if (!monthContent) return;
+
+        // 월간 목표 복원
+        const monthlyGoalTextarea = monthContent.querySelector('textarea');
+        if (monthlyGoalTextarea) {
+            monthlyGoalTextarea.value = data.monthlyGoal;
+        }
+
+        // 주차별 계획 복원
+        const weekContainer = document.getElementById(`weeks-${month}`);
+        if (weekContainer) {
+            weekContainer.innerHTML = ''; // 기존 주차 계획 초기화
+            data.weeklyPlans.forEach(weekPlan => {
+                const weekDiv = document.createElement('div');
+                weekDiv.className = 'week-planner bg-gray-50 p-4 rounded-lg';
+                weekDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-medium">${weekPlan.weekNumber}</h4>
+                        <button onclick="deleteWeek(this.parentElement.parentElement)" 
+                                class="text-red-500 hover:text-red-700">
+                            삭제
+                        </button>
+                    </div>
+                    <textarea class="w-full p-2 border rounded-md" 
+                            onchange="saveMonthlyData(${month})"
+                            placeholder="이번 주 계획을 입력하세요">${weekPlan.plan}</textarea>
+                `;
+                weekContainer.appendChild(weekDiv);
+            });
+        }
+    }
+}
+
+// 모든 월별 데이터 저장
+function saveAllMonthlyData() {
+    for (let month = 1; month <= 12; month++) {
+        saveMonthlyData(month);
+    }
+}
+
+// 모든 월별 데이터 불러오기
+function loadAllMonthlyData() {
+    for (let month = 1; month <= 12; month++) {
+        loadMonthlyData(month);
+    }
+}
+
+// 자동 저장 이벤트 추가
+document.addEventListener('input', (e) => {
+    const monthContent = e.target.closest('[id^="month-"][id$="-content"]');
+    if (monthContent) {
+        const month = monthContent.id.match(/month-(\d+)-content/)[1];
+        saveMonthlyData(month);
+        showSaveStatus('저장되었습니다');
+    }
+});
+
+// 기존 초기화 함수 수정
+document.addEventListener('DOMContentLoaded', () => {
+    createMonthlyPlanners();
+    loadFromLocalStorage();
+    loadAllMonthlyData(); // 월별 데이터 불러오기 추가
+    if (document.querySelectorAll('#bucketListItems > div').length === 0) {
+        addBucketListItem();
+    }
+    
+    document.getElementById('bucketListBtn').addEventListener('click', toggleBucketList);
+});
+
+// 페이지 닫을 때 모든 데이터 저장
+window.addEventListener('beforeunload', () => {
+    saveToLocalStorage();
+    saveAllMonthlyData();
+});
+
+// 데이터 백업/복원 함수
+function exportData() {
+    const data = {
+        bucketList: JSON.parse(localStorage.getItem('bucketList2025') || '[]'),
+        monthlyPlans: {}
+    };
+    
+    // 월별 데이터 수집
+    for (let i = 1; i <= 12; i++) {
+        data.monthlyPlans[i] = JSON.parse(localStorage.getItem(`month-${i}-2025`) || 'null');
+    }
+
+    // 파일로 다운로드
+    const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `planner-backup-${new Date().toLocaleDateString()}.json`;
+    a.click();
+    showSaveStatus('백업 파일이 다운로드되었습니다');
+}
+
+function importData(file) {
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            
+            // 데이터 복원
+            if (data.bucketList) {
+                localStorage.setItem('bucketList2025', JSON.stringify(data.bucketList));
             }
             
-            // 버킷리스트 토글 버튼에 이벤트 리스너 추가
-            document.getElementById('bucketListBtn').addEventListener('click', toggleBucketList);
-        });
+            if (data.monthlyPlans) {
+                Object.entries(data.monthlyPlans).forEach(([month, plans]) => {
+                    if (plans) {
+                        localStorage.setItem(`month-${month}-2025`, JSON.stringify(plans));
+                    }
+                });
+            }
+
+            showSaveStatus('데이터가 복원되었습니다');
+            setTimeout(() => location.reload(), 1000); // 1초 후 페이지 새로고침
+        } catch (error) {
+            showSaveStatus('백업 파일 복원 중 오류가 발생했습니다', 'error');
+        }
+    };
+    reader.readAsText(file);
+}
+
+// 월별 데이터 저장 함수 수정 (성공/실패 알림 추가)
+function saveMonthlyData(month) {
+    try {
+        const monthContent = document.getElementById(`month-${month}-content`);
+        if (!monthContent) return;
+
+        const monthlyGoal = monthContent.querySelector('textarea').value;
+        const weeklyPlans = Array.from(monthContent.querySelectorAll('.week-planner')).map(week => ({
+            weekNumber: week.querySelector('h4').textContent,
+            plan: week.querySelector('textarea').value
+        }));
+
+        localStorage.setItem(`month-${month}-2025`, JSON.stringify({
+            monthlyGoal,
+            weeklyPlans
+        }));
+        
+        showSaveStatus(`${month}월 데이터가 저장되었습니다`);
+        return true;
+    } catch (error) {
+        console.error('저장 실패:', error);
+        showSaveStatus(`${month}월 데이터 저장 중 오류가 발생했습니다`, 'error');
+        return false;
+    }
+}
+
+// 저장 상태 표시 함수 수정 (에러 상태 추가)
+function showSaveStatus(message, type = 'success') {
+    const status = document.createElement('div');
+    status.className = `fixed bottom-4 right-4 px-4 py-2 rounded-lg text-white ${
+        type === 'error' ? 'bg-red-500' : 'bg-green-500'
+    }`;
+    status.textContent = message;
+    document.body.appendChild(status);
+    setTimeout(() => status.remove(), 2000);
+}
+
     </script>
     <footer class="text-center text-gray-600 text-sm mt-8 pb-4">
     © 2025 CoffeeMania's Planner. All rights reserved.
