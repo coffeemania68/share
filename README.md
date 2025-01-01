@@ -61,9 +61,8 @@
 
 ## 제작자 👩‍💻
 
-[CoffeeMania68]
-- GitHub: [@coffeemania68]
-- Email: [gmschool0245@gmail.com]
+☕ coffeemania
+- GitHub: [@coffeemania68](https://github.com/coffeemania68)
 
 ## 감사의 말 🙏
 
