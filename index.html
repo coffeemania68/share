@@ -236,31 +236,33 @@
 
         // 버킷리스트 아이템 추가 함수
         function addBucketListItem() {
-            const container = document.getElementById('bucketListItems');
-            const itemId = 'item-' + Date.now();
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'flex items-center space-x-2 p-2 border rounded-lg';
-            itemDiv.id = itemId;
-            itemDiv.innerHTML = `
-                <input type="text" 
-                       class="flex-1 p-2 border rounded-md" 
-                       placeholder="새로운 목표를 입력하세요"
-                       onchange="saveToLocalStorage()">
-                <div class="flex space-x-1">
-                    ${Array(5).fill(0).map(() => `
-                        <input type="checkbox" 
-                               class="form-checkbox h-5 w-5 text-purple-600"
-                               onchange="saveToLocalStorage()">
-                    `).join('')}
-                </div>
-                <button onclick="deleteItem('${itemId}')" 
-                        class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                    삭제
-                </button>
-            `;
-            container.appendChild(itemDiv);
-            saveToLocalStorage();
-        }
+    const container = document.getElementById('bucketListItems');
+    const itemId = 'item-' + Date.now();
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 p-2 border rounded-lg';
+    itemDiv.id = itemId;
+    itemDiv.innerHTML = `
+        <input type="text" 
+               class="w-full sm:w-auto flex-1 p-2 border rounded-md" 
+               placeholder="새로운 목표를 입력하세요"
+               onchange="saveToLocalStorage()">
+        <div class="flex items-center space-x-1 w-full sm:w-auto justify-between sm:justify-start">
+            <div class="flex space-x-1">
+                ${Array(5).fill(0).map(() => `
+                    <input type="checkbox" 
+                           class="form-checkbox h-5 w-5 text-purple-600"
+                           onchange="saveToLocalStorage()">
+                `).join('')}
+            </div>
+            <button onclick="deleteItem('${itemId}')" 
+                    class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                삭제
+            </button>
+        </div>
+    `;
+    container.appendChild(itemDiv);
+    saveToLocalStorage();
+}
 
         // 아이템 삭제 함수
         function deleteItem(itemId) {
@@ -291,37 +293,39 @@
         }
 
         // 로컬 스토리지에서 불러오기
-        function loadFromLocalStorage() {
-            const items = JSON.parse(localStorage.getItem('bucketList2025') || '[]');
-            const container = document.getElementById('bucketListItems');
-            container.innerHTML = '';
+       function loadFromLocalStorage() {
+    const items = JSON.parse(localStorage.getItem('bucketList2025') || '[]');
+    const container = document.getElementById('bucketListItems');
+    container.innerHTML = '';
 
-            items.forEach(item => {
-                const itemId = 'item-' + Date.now();
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'flex items-center space-x-2 p-2 border rounded-lg';
-                itemDiv.id = itemId;
-                itemDiv.innerHTML = `
-                    <input type="text" 
-                           class="flex-1 p-2 border rounded-md" 
-                           value="${item.text}"
-                           onchange="saveToLocalStorage()">
-                    <div class="flex space-x-1">
-                        ${item.checks.map(checked => `
-                            <input type="checkbox" 
-                                   class="form-checkbox h-5 w-5 text-purple-600"
-                                   ${checked ? 'checked' : ''}
-                                   onchange="saveToLocalStorage()">
-                        `).join('')}
-                    </div>
-                    <button onclick="deleteItem('${itemId}')" 
-                            class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                        삭제
-                    </button>
-                `;
-                container.appendChild(itemDiv);
-            });
-        }
+    items.forEach(item => {
+        const itemId = 'item-' + Date.now();
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 p-2 border rounded-lg';
+        itemDiv.id = itemId;
+        itemDiv.innerHTML = `
+            <input type="text" 
+                   class="w-full sm:w-auto flex-1 p-2 border rounded-md" 
+                   value="${item.text}"
+                   onchange="saveToLocalStorage()">
+            <div class="flex items-center space-x-1 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex space-x-1">
+                    ${item.checks.map(checked => `
+                        <input type="checkbox" 
+                               class="form-checkbox h-5 w-5 text-purple-600"
+                               ${checked ? 'checked' : ''}
+                               onchange="saveToLocalStorage()">
+                    `).join('')}
+                </div>
+                <button onclick="deleteItem('${itemId}')" 
+                        class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    삭제
+                </button>
+            </div>
+        `;
+        container.appendChild(itemDiv);
+    });
+}
 
         // 주차 추가
         function addWeek(monthId) {
