@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2025 CoffeeMania's Planner - 기록이 현실이 되는 순간">
+ <title>2025 CoffeeMania's Planner</title>
 
         <!-- 웹 앱 아이콘 설정 -->
     <link rel="apple-touch-icon" href="https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp">
     <link rel="icon" type="image/webp" href="https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="2025 플래너">
+    <meta name="apple-mobile-web-app-title" content="2025 CoffeeMania's Planner">
     
-    <title>2025 연간 플래너</title>
+ <!-- 스타일시트 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -157,6 +159,8 @@
         .month-12 { background: linear-gradient(135deg, #e8eaf6, #c5cae9); }
     </style>
 </head>
+
+    
 <body class="bg-gray-50">
     <!-- 네잎클로버 배경 -->
     <div id="cloverContainer"></div>
@@ -194,6 +198,17 @@
     </div>
 </div>
 
+<div class="bg-yellow-50 p-4 rounded-lg mb-4">
+    <div class="text-sm text-gray-700">
+        <p class="font-medium mb-2">💡 데이터 저장 안내</p>
+        <ul class="space-y-1">
+            <li>• 입력하신 내용은 자동으로 저장됩니다</li>
+            <li>• 브라우저 데이터 삭제 시 내용이 지워질 수 있습니다</li>
+            <li>• 중요한 내용은 따로 메모해두시기 바랍니다</li>
+        </ul>
+    </div>
+</div>
+    
 <div class="max-w-4xl mx-auto p-4">
     <!-- 버킷리스트 섹션 -->
         <div class="mb-6">
@@ -468,5 +483,8 @@ function loadFromLocalStorage() {
             document.getElementById('bucketListBtn').addEventListener('click', toggleBucketList);
         });
     </script>
+    <footer class="text-center text-gray-600 text-sm mt-8 pb-4">
+    © 2025 CoffeeMania's Planner. All rights reserved.
+</footer>
 </body>
 </html>      
