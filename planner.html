@@ -362,13 +362,18 @@ function loadFromLocalStorage() {
     const container = document.getElementById('bucketListItems');
     container.innerHTML = '';
 
-    // 환영 메시지 추가
-    const welcomeDiv = document.createElement('div');
-    welcomeDiv.className = 'bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg mb-4 text-center shadow-sm';
-    welcomeDiv.innerHTML = `
-        <p class="text-gray-700 font-medium">기록이 현실이 되는 순간, 2025</p>
-    `;
-    container.appendChild(welcomeDiv);
+// 환영 메시지 추가
+const welcomeDiv = document.createElement('div');
+welcomeDiv.className = 'bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg mb-4 text-center shadow-sm';
+welcomeDiv.innerHTML = `
+    <p class="text-gray-700 font-medium">
+        <a href="https://mypawstory.com/2025-%ec%97%b0%ea%b0%84-%ed%94%8c%eb%9e%98%eb%84%88/" 
+           class="text-blue-500 underline hover:text-blue-700">
+           2025 버킷리스트 사용법 가이드
+        </a>
+    </p>
+`;
+container.appendChild(welcomeDiv);
 
     // 저장된 아이템들 로드
     items.forEach(item => {
