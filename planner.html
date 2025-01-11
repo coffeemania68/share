@@ -104,6 +104,7 @@
       .timer-alarm-container {
           display: flex;
           gap: 1rem;
+          flex-wrap: wrap; /* 모바일에서 컨테이너 아래로 줄바꿈 */
       }
       .memo-container textarea {
         min-height: 100px;
@@ -218,12 +219,11 @@
 </div>
    
     <div class="max-w-4xl mx-auto p-4">
-        <div class="flex justify-between items-center mb-4">
-            <div class="flex-1">
-                <div class="flex justify-between items-center mb-2">
-                       <div class="timer-alarm-container">
-                    <div class="timer-container bg-white p-4 rounded-lg shadow-md">
-                      <h2 class="text-xl font-semibold mb-2">작업 타이머</h2>
+        <!-- 변경 코드 시작 -->
+        <div class="mb-4">
+           <div class="timer-alarm-container">
+                <div class="timer-container bg-white p-4 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-2">작업 타이머</h2>
                          <select id="timer-duration" class="w-full p-2 border rounded-md">
                              <option value="60">1시간</option>
                              <option value="120">2시간</option>
@@ -234,28 +234,24 @@
                          <button id="start-button" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg">시작</button>
                          <button id="pause-button" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg">일시정지</button>
                          <button id="reset-button" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg">초기화</button>
-                   </div>
-                 </div>
-                    <div class="alarm-container bg-white p-4 rounded-lg shadow-md">
-                      <h2 class="text-xl font-semibold mb-2">알람 설정</h2>
-                      <input type="time" id="alarm-time" class="w-full p-2 border rounded-md">
-                      <button id="set-alarm-button" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg mt-2">설정</button>
-                      <p class="text-gray-700" id="alarm-display"></p>
                     </div>
-                  </div>
+                </div>
+                <div class="alarm-container bg-white p-4 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-2">알람 설정</h2>
+                    <input type="time" id="alarm-time" class="w-full p-2 border rounded-md">
+                    <button id="set-alarm-button" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg mt-2">설정</button>
+                    <p class="text-gray-700" id="alarm-display"></p>
                 </div>
             </div>
-             <div class="memo-container bg-white p-4 rounded-lg shadow-md flex-1 ml-4">
+            <div class="memo-container bg-white p-4 rounded-lg shadow-md mt-4">
                 <h2 class="text-xl font-semibold mb-2">메모</h2>
                 <div id="memo-list" class="space-y-2">
                 </div>
-                <button id="add-memo-button" 
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
-                        + 메모 추가
-                </button>
+                
             </div>
-    </div>
-
+         </div>
+        <!-- 변경 코드 끝 -->
+   
         <!-- 버킷리스트 섹션 -->
         <div class="mb-6">
             <button id="bucketListBtn" 
@@ -279,9 +275,10 @@
             <!-- 월별 플래너가 여기에 추가됩니다 -->
         </div>
         
-        
- <div class="flex justify-end space-x-2 mb-4">
-            <button onclick="exportData()" 
+   <!-- 변경 코드 시작 -->
+     <div class="flex justify-end space-x-2 mb-4" style="margin-top: 20px;"> 
+     <!-- 변경 코드 끝 -->       
+             <button onclick="exportData()" 
                     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
                 <span>💾 데이터 백업</span>
             </button>
@@ -335,10 +332,10 @@
                            onchange="saveToLocalStorage()">
                 `).join('')}
             </div>
-            <button onclick="deleteItem('${itemId}')" 
-                    class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                삭제
-            </button>
+              <button onclick="addMemo()"
+                    class="px-2 py-1 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+                   +
+                </button>
         </div>
     `;
     container.appendChild(itemDiv);
@@ -442,9 +439,9 @@ container.appendChild(welcomeDiv);
                                onchange="saveToLocalStorage()">
                     `).join('')}
                 </div>
-                <button onclick="deleteItem('${itemId}')" 
-                        class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                    삭제
+                   <button onclick="addMemo()"
+                    class="px-2 py-1 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+                   +
                 </button>
             </div>
         `;
@@ -633,10 +630,7 @@ function loadAllMonthlyData() {
 }
  // 메모 기능 관련 코드
     const memoList = document.getElementById('memo-list');
-    const addMemoButton = document.getElementById('add-memo-button');
     
-    addMemoButton.addEventListener('click', addMemo);
-
     function addMemo() {
         const memoId = 'memo-' + Date.now();
         const memoDiv = document.createElement('div');
@@ -646,10 +640,8 @@ function loadAllMonthlyData() {
             <textarea class="w-full p-2 border rounded-md" 
                       placeholder="메모를 입력하세요" style="background-color:#f0f8ff;"
                       onchange="saveMemoToLocalStorage()"></textarea>
-            <button onclick="deleteMemo('${memoId}')" 
-                    class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                삭제
-            </button>
+                <button onclick="deleteMemo('${memoId}')" 
+                        class="text-red-500 text-sm px-1">-</button>
         `;
         memoList.appendChild(memoDiv);
         saveMemoToLocalStorage();
@@ -687,10 +679,8 @@ function loadAllMonthlyData() {
             <textarea class="w-full p-2 border rounded-md" 
                     placeholder="메모를 입력하세요" style="background-color:#f0f8ff;"
                       onchange="saveMemoToLocalStorage()">${memoText}</textarea>
-            <button onclick="deleteMemo('${memoId}')" 
-                    class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                삭제
-            </button>
+              <button onclick="deleteMemo('${memoId}')" 
+                        class="text-red-500 text-sm px-1">-</button>
         `;
         memoList.appendChild(memoDiv);
         });
