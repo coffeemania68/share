@@ -1,171 +1,114 @@
-<!DOCTYPE html>
+ㅍ<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="2025 CoffeeMania's Planner - 기록이 현실이 되는 순간">
- <title>2025 CoffeeMania's Planner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="2025 CoffeeMania's Planner - 기록이 현실이 되는 순간">
+    <title>2025 CoffeeMania's Planner</title>
 
-        <!-- 웹 앱 아이콘 설정 -->
+    <!-- 웹 앱 아이콘 설정 -->
     <link rel="apple-touch-icon" href="https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp">
     <link rel="icon" type="image/webp" href="https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="2025 CoffeeMania's Planner">
-    
- <!-- 스타일시트 -->
+
+    <!-- 스타일시트 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* 헤더 스타일 */
-    .header-container {
-        position: relative;
-        min-height: 200px;
-    }
-
-    /* 모바일 버전 (기본) */
-    .header-slider {
-        position: relative;
-        overflow: hidden;
-        height: 200px;
-    }
-
-    .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .slide.active {
-        opacity: 1;
-    }
-
-    .slide:nth-child(1) {
-        background-image: url('https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp');
-    }
-
-    .slide:nth-child(2) {
-        background-image: url('https://blog.kakaocdn.net/dn/PwuUk/btsLCEcohDa/rbCuGpl6kt5keQrq3kcgg1/img.png');
-    }
-
-    .slide:nth-child(3) {
-        background-image: url('https://blog.kakaocdn.net/dn/RNx8Z/btsLCDkfJdv/3a2DyBsY4PEHn1YB2FDKJk/img.png');
-    }
-
-    .header-content {
-        position: relative;
-        z-index: 10;
-        background-color: rgba(0, 0, 0, 0.3);
-        padding: 2rem;
-        border-radius: 1rem;
-    }
-
-    /* PC 버전 */
-    @media (min-width: 768px) {
-        .header-slider {
-            display: none;
+       /* 헤더 스타일 */
+        .header-container {
+            position: relative;
+            min-height: 200px;
         }
 
-        .header-pc {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1rem;
+        /* 모바일 버전 (기본) */
+        .header-slider {
+            position: relative;
+            overflow: hidden;
             height: 200px;
         }
 
-        .header-image {
-            flex: 1;
-            border-radius: 1rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .header-image img {
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-    }
-
-    /* 모바일에서는 PC 버전 숨기기 */
-    @media (max-width: 767px) {
-        .header-pc {
-            display: none;
-        }
-    }
-
-    /* 클로버 애니메이션 (유지) */
-    @keyframes float {
-        0% { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(100px, -100px) rotate(360deg); }
-    }
-
-    .clover {
-        position: fixed;
-        pointer-events: none;
-        z-index: -1;
-        opacity: 0.5;
-    }
-
-        #monthly-planners {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
         }
 
-        .monthly-planner {
-            transition: all 0.3s ease;
+        .slide.active {
+            opacity: 1;
         }
 
-        .monthly-planner.active-month {
-            order: -1;
-            position: sticky;
-            top: 1rem;
+        .slide:nth-child(1) {
+            background-image: url('https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp');
+        }
+
+        .slide:nth-child(2) {
+            background-image: url('https://blog.kakaocdn.net/dn/PwuUk/btsLCEcohDa/rbCuGpl6kt5keQrq3kcgg1/img.png');
+        }
+
+        .slide:nth-child(3) {
+            background-image: url('https://blog.kakaocdn.net/dn/RNx8Z/btsLCDkfJdv/3a2DyBsY4PEHn1YB2FDKJk/img.png');
+        }
+
+        .header-content {
+            position: relative;
             z-index: 10;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 1rem;
         }
 
-        /* 월별 버튼 및 컨텐츠 스타일 */
-        .month-1-btn { background: linear-gradient(135deg, #90caf9, #42a5f5); }
-        .month-2-btn { background: linear-gradient(135deg, #f48fb1, #ec407a); }
-        .month-3-btn { background: linear-gradient(135deg, #dce775, #c0ca33); }
-        .month-4-btn { background: linear-gradient(135deg, #81d4fa, #29b6f6); }
-        .month-5-btn { background: linear-gradient(135deg, #ce93d8, #ab47bc); }
-        .month-6-btn { background: linear-gradient(135deg, #aed581, #7cb342); }
-        .month-7-btn { background: linear-gradient(135deg, #ffb74d, #fb8c00); }
-        .month-8-btn { background: linear-gradient(135deg, #4dd0e1, #00acc1); }
-        .month-9-btn { background: linear-gradient(135deg, #fff176, #ffd835); }
-        .month-10-btn { background: linear-gradient(135deg, #ff8a65, #f4511e); }
-        .month-11-btn { background: linear-gradient(135deg, #ba68c8, #8e24aa); }
-        .month-12-btn { background: linear-gradient(135deg, #9fa8da, #5c6bc0); }
+        /* PC 버전 */
+        @media (min-width: 768px) {
+            .header-slider {
+                display: none;
+            }
 
-        .month-1 { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
-        .month-2 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); }
-        .month-3 { background: linear-gradient(135deg, #f0f4c3, #dce775); }
-        .month-4 { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); }
-        .month-5 { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
-        .month-6 { background: linear-gradient(135deg, #dcedc8, #c5e1a5); }
-        .month-7 { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
-        .month-8 { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); }
-        .month-9 { background: linear-gradient(135deg, #fff9c4, #fff59d); }
-        .month-10 { background: linear-gradient(135deg, #ffebee, #ffcdd2); }
-        .month-11 { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
-        .month-12 { background: linear-gradient(135deg, #e8eaf6, #c5cae9); }
+            .header-pc {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 1rem;
+                height: 200px;
+            }
+
+            .header-image {
+                flex: 1;
+                border-radius: 1rem;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .header-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        /* 모바일에서는 PC 버전 숨기기 */
+        @media (max-width: 767px) {
+            .header-pc {
+                display: none;
+            }
+        }
     </style>
 </head>
 
-    
 <body class="bg-gray-50">
     <!-- 네잎클로버 배경 -->
     <div id="cloverContainer"></div>
 
-<!-- 헤더 섹션 -->
+    <!-- 헤더 섹션 -->
 <div class="header-container">
     <!-- 모바일 버전 (슬라이더) -->
     <div class="header-slider">
@@ -197,31 +140,42 @@
         </div>
     </div>
 </div>
-
-<div class="bg-yellow-50 p-4 rounded-lg mb-4">
-    <div class="text-sm text-gray-700">
-        <p class="font-medium mb-2">💡 데이터 저장 안내</p>
-        <ul class="space-y-1">
-            <li>• 입력하신 내용은 자동으로 저장됩니다</li>
-            <li>• 브라우저 데이터 삭제 시 내용이 지워질 수 있습니다</li>
-            <li>• 중요한 내용은 따로 메모해두시기 바랍니다</li>
-        </ul>
+   
+    <div class="max-w-4xl mx-auto p-4">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex-1">
+                <div class="flex justify-between items-center mb-2">
+                       <div class="timer-alarm-container">
+                    <div class="timer-container bg-white p-4 rounded-lg shadow-md">
+                      <h2 class="text-xl font-semibold mb-2">작업 타이머</h2>
+                         <select id="timer-duration" class="w-full p-2 border rounded-md">
+                             <option value="60">1시간</option>
+                             <option value="120">2시간</option>
+                             <option value="180">3시간</option>
+                        </select>
+                    <div class="timer-display text-2xl font-medium" id="timer-display">00:00</div>
+                    <div class="timer-controls mt-2">
+                         <button id="start-button" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg">시작</button>
+                         <button id="pause-button" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg">일시정지</button>
+                         <button id="reset-button" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg">초기화</button>
+                   </div>
+                 </div>
+                    <div class="alarm-container bg-white p-4 rounded-lg shadow-md">
+                      <h2 class="text-xl font-semibold mb-2">알람 설정</h2>
+                      <input type="time" id="alarm-time" class="w-full p-2 border rounded-md">
+                      <button id="set-alarm-button" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg mt-2">설정</button>
+                      <p class="text-gray-700" id="alarm-display"></p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="memo-container bg-white p-4 rounded-lg shadow-md flex-1 ml-4">
+               <h2 class="text-xl font-semibold mb-2">메모</h2>
+              <textarea id="memo-area" placeholder="여기에 메모하세요" class="w-full p-2 border rounded-md" style="background-color:#f0f8ff;"></textarea>
+         </div>
     </div>
-</div>
 
-<div class="flex justify-end space-x-2 mb-4">
-    <button onclick="exportData()" 
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
-        <span>💾 데이터 백업</span>
-    </button>
-    <label class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg cursor-pointer flex items-center">
-        <span>📥 백업 복원</span>
-        <input type="file" onchange="importData(this.files[0])" class="hidden" accept=".json">
-    </label>
-</div>
-    
-<div class="max-w-4xl mx-auto p-4">
-    <!-- 버킷리스트 섹션 -->
+        <!-- 버킷리스트 섹션 -->
         <div class="mb-6">
             <button id="bucketListBtn" 
                     class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white p-4 rounded-lg shadow-md flex justify-between items-center">
@@ -243,9 +197,21 @@
         <div id="monthly-planners" class="space-y-4">
             <!-- 월별 플래너가 여기에 추가됩니다 -->
         </div>
+        
+        
+ <div class="flex justify-end space-x-2 mb-4">
+            <button onclick="exportData()" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                <span>💾 데이터 백업</span>
+            </button>
+            <label class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg cursor-pointer flex items-center">
+                <span>📥 백업 복원</span>
+                <input type="file" onchange="importData(this.files[0])" class="hidden" accept=".json">
+            </label>
+        </div>
     </div>
 
-    <script>
+   <script>
         // 네잎클로버 생성 및 애니메이션
         function createClovers() {
             const container = document.getElementById('cloverContainer');
@@ -269,7 +235,7 @@
         }
 
         // 버킷리스트 아이템 추가 함수
-        function addBucketListItem() {
+       function addBucketListItem() {
     const container = document.getElementById('bucketListItems');
     const itemId = 'item-' + Date.now();
     const itemDiv = document.createElement('div');
@@ -412,7 +378,7 @@ container.appendChild(welcomeDiv);
         container.appendChild(emptyMessage);
     }
 }
-
+        
         // 주차 추가
         function addWeek(monthId) {
             const weekContainer = document.getElementById(`weeks-${monthId}`);
@@ -432,7 +398,7 @@ container.appendChild(welcomeDiv);
             `;
             weekContainer.appendChild(weekDiv);
         }
-
+        
         // 월별 플래너 생성
         function createMonthlyPlanners() {
             const container = document.getElementById('monthly-planners');
@@ -702,9 +668,112 @@ function showSaveStatus(message, type = 'success') {
     setTimeout(() => status.remove(), 2000);
 }
 
+ // 타이머,알람 자바스크립트 코드
+    const timerDisplay = document.getElementById('timer-display');
+    const startButton = document.getElementById('start-button');
+    const pauseButton = document.getElementById('pause-button');
+    const resetButton = document.getElementById('reset-button');
+    const timerDurationSelect = document.getElementById('timer-duration');
+    const alarmTimeInput = document.getElementById('alarm-time');
+    const setAlarmButton = document.getElementById('set-alarm-button');
+    const alarmDisplay = document.getElementById('alarm-display');
+    let timerInterval;
+    let timeLeft;
+    let isTimerRunning = false;
+    let alarmTimeout;
+    let selectedTimeInMinutes = parseInt(timerDurationSelect.value); // 초기값은 1시간
+  
+    // 초기 설정
+    timeLeft = selectedTimeInMinutes * 60
+    updateDisplay();
+
+   //타이머 설정 변경시
+    timerDurationSelect.addEventListener('change', () => {
+        selectedTimeInMinutes = parseInt(timerDurationSelect.value);
+        timeLeft = selectedTimeInMinutes * 60;
+       updateDisplay();
+    });
+
+    startButton.addEventListener('click', function () {
+        if (!isTimerRunning) {
+            startTimer();
+        }
+    });
+
+    pauseButton.addEventListener('click', function () {
+        if (isTimerRunning) {
+            pauseTimer();
+        }
+    });
+    
+    resetButton.addEventListener('click', function () {
+        resetTimer();
+    });
+     
+   setAlarmButton.addEventListener('click', function () {
+        setAlarm();
+    });
+
+    function startTimer() {
+        if (!isTimerRunning) {
+             isTimerRunning = true;
+             timerInterval = setInterval(updateTimer, 1000);
+        }
+    }
+    
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+    }
+    
+    function resetTimer() {
+      pauseTimer();
+      timeLeft = selectedTimeInMinutes * 60
+      updateDisplay();
+    }
+    
+     function updateTimer() {
+        timeLeft--;
+        if(timeLeft < 0) {
+          pauseTimer();
+          timeLeft = 0;
+        }
+        updateDisplay();
+      }
+
+    function updateDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+    
+    function setAlarm() {
+      clearTimeout(alarmTimeout);
+      const alarmTime = alarmTimeInput.value;
+       if(alarmTime) {
+        const [hours, minutes] = alarmTime.split(':').map(Number);
+         const now = new Date();
+          const alarmDate = new Date(now);
+         alarmDate.setHours(hours);
+        alarmDate.setMinutes(minutes);
+        alarmDate.setSeconds(0);
+        if(alarmDate <= now) {
+           alarmDate.setDate(alarmDate.getDate()+1);
+        }
+      const timeDiff = alarmDate.getTime() - now.getTime()
+         alarmTimeout = setTimeout(playAlarmSound, timeDiff);
+        alarmDisplay.textContent = `알람 설정: ${alarmTime}`
+      }
+    }
+    
+   function playAlarmSound() {
+         alert("알람!");
+          alarmDisplay.textContent = `알람 울림`;
+     }
+ updateDisplay();
     </script>
-    <footer class="text-center text-gray-600 text-sm mt-8 pb-4">
+      <footer class="text-center text-gray-600 text-sm mt-8 pb-4">
     © 2025 CoffeeMania's Planner. All rights reserved.
 </footer>
 </body>
-</html>      
+</html>
