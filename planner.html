@@ -313,8 +313,7 @@
             </label>
         </div>
     </div>
-  
-  <script>
+      <script>
         // 네잎클로버 생성 및 애니메이션
         function createClovers() {
             const container = document.getElementById('cloverContainer');
@@ -666,7 +665,7 @@ function loadAllMonthlyData() {
                       placeholder="메모를 입력하세요" style="background-color:#f0f8ff;"
                       onchange="saveMemoToLocalStorage()"></textarea>
                 <button onclick="deleteMemo('${memoId}')" 
-                        class="text-red-500 text-sm px-1">-</button>
+                                        class="text-red-500 text-sm px-1">-</button>
         `;
         memoList.appendChild(memoDiv);
         saveMemoToLocalStorage();
@@ -683,8 +682,7 @@ function loadAllMonthlyData() {
     function saveMemoToLocalStorage() {
       try {
         const memos = Array.from(memoList.querySelectorAll('textarea')).map(textarea => textarea.value);
-         localStorage.setItem('memos2025', JSON.stringify
-                              (memos));
+         localStorage.setItem('memos2025', JSON.stringify(memos));
          return true;
        } catch (error) {
          console.error('저장 실패:', error);
@@ -695,7 +693,11 @@ function loadAllMonthlyData() {
 
      function loadMemoFromLocalStorage() {
        const memos = JSON.parse(localStorage.getItem('memos2025') || '[]');
-        memoList.innerHTML = '';
+       memoList.innerHTML = '';
+        if (memos.length === 0) {
+            addMemo();
+            return;
+        }
         memos.forEach(memoText => {
             const memoId = 'memo-' + Date.now();
             const memoDiv = document.createElement('div');
@@ -944,3 +946,4 @@ function showSaveStatus(message, type = 'success') {
 </footer>
 </body>
 </html>
+                
