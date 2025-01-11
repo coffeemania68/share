@@ -106,22 +106,46 @@
           gap: 1rem;
           flex-wrap: wrap; /* 모바일에서 컨테이너 아래로 줄바꿈 */
       }
+      .timer-container, .alarm-container{
+          flex: 1;
+      }
       .memo-container textarea {
-        min-height: 100px;
-    }
+        min-height: 50px;
+         line-height: 1.2; /* 글자 간격 조정 */
+        resize: vertical; /* 세로 크기 조절 허용 */
+      }
+       .memo-container .flex{
+             flex-wrap: wrap; /* 줄바꿈 */
+           align-items: center;/* 중앙정렬 */
+       }
+       .memo-container .flex textarea {
+             flex: 1;
+        }
      
     @media (max-width: 767px) {
         .timer-alarm-container {
             flex-direction: column;
         }
-
-        .timer-container, .alarm-container {
+            .timer-container, .alarm-container {
             width: 100%;
             margin-bottom: 10px;
         }
+        
        .memo-container{
-         margin-left:0
+           margin-left: 0
         }
+    
+         .timer-controls {
+            display: flex;
+            justify-content: space-between;
+          }
+       .timer-controls button {
+         flex: 1; /* 각 버튼이 동일한 공간을 차지 */
+            margin: 0 5px; /* 버튼 간 여백 */
+        }
+          .alarm-container button {
+        display:none;
+      }
     }
         /* 클로버 애니메이션 (유지) */
     @keyframes float {
@@ -239,7 +263,6 @@
                 <div class="alarm-container bg-white p-4 rounded-lg shadow-md">
                     <h2 class="text-xl font-semibold mb-2">알람 설정</h2>
                     <input type="time" id="alarm-time" class="w-full p-2 border rounded-md">
-                    <button id="set-alarm-button" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg mt-2">설정</button>
                     <p class="text-gray-700" id="alarm-display"></p>
                 </div>
             </div>
@@ -275,10 +298,9 @@
             <!-- 월별 플래너가 여기에 추가됩니다 -->
         </div>
         
-   <!-- 변경 코드 시작 -->
-     <div class="flex justify-end space-x-2 mb-4" style="margin-top: 20px;"> 
-     <!-- 변경 코드 끝 -->       
-             <button onclick="exportData()" 
+        
+ <div class="flex justify-end space-x-2 mb-4" style="margin-top: 20px;">
+            <button onclick="exportData()" 
                     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
                 <span>💾 데이터 백업</span>
             </button>
@@ -288,8 +310,7 @@
             </label>
         </div>
     </div>
-
-   <script>
+        <script>
         // 네잎클로버 생성 및 애니메이션
         function createClovers() {
             const container = document.getElementById('cloverContainer');
@@ -671,7 +692,8 @@ function loadAllMonthlyData() {
        const memos = JSON.parse(localStorage.getItem('memos2025') || '[]');
         memoList.innerHTML = '';
         memos.forEach(memoText => {
-            const memoId = 'memo-' + Date.now();
+            const memoId = 'memo-' + Date
+            .now();
             const memoDiv = document.createElement('div');
            memoDiv.className = 'flex items-center space-x-2';
             memoDiv.id = memoId;
