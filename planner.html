@@ -18,89 +18,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-       /* 헤더 스타일 */
-        .header-container {
-            position: relative;
-            min-height: 200px;
+    /* 헤더 스타일 */
+    .header-container {
+        position: relative;
+        min-height: 200px;
+    }
+
+    /* 모바일 버전 (기본) */
+    .header-slider {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .slide.active {
+        opacity: 1;
+    }
+
+    .slide:nth-child(1) {
+        background-image: url('https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp');
+    }
+
+    .slide:nth-child(2) {
+        background-image: url('https://blog.kakaocdn.net/dn/PwuUk/btsLCEcohDa/rbCuGpl6kt5keQrq3kcgg1/img.png');
+    }
+
+    .slide:nth-child(3) {
+        background-image: url('https://blog.kakaocdn.net/dn/RNx8Z/btsLCDkfJdv/3a2DyBsY4PEHn1YB2FDKJk/img.png');
+    }
+
+    .header-content {
+        position: relative;
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 2rem;
+        border-radius: 1rem;
+    }
+
+    /* PC 버전 */
+    @media (min-width: 768px) {
+        .header-slider {
+            display: none;
         }
 
-        /* 모바일 버전 (기본) */
-        .header-slider {
-            position: relative;
-            overflow: hidden;
+        .header-pc {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem;
             height: 200px;
         }
 
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .header-image {
+            flex: 1;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header-image img {
             width: 100%;
             height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
+            object-fit: cover;
         }
+    }
 
-        .slide.active {
-            opacity: 1;
+    /* 모바일에서는 PC 버전 숨기기 */
+    @media (max-width: 767px) {
+        .header-pc {
+            display: none;
         }
-
-        .slide:nth-child(1) {
-            background-image: url('https://cdn.litt.ly/images/JqbOGc9p8Y1Ayy0ulNVoEw2TihLwpVK1?s=600x600&m=outside&f=webp');
-        }
-
-        .slide:nth-child(2) {
-            background-image: url('https://blog.kakaocdn.net/dn/PwuUk/btsLCEcohDa/rbCuGpl6kt5keQrq3kcgg1/img.png');
-        }
-
-        .slide:nth-child(3) {
-            background-image: url('https://blog.kakaocdn.net/dn/RNx8Z/btsLCDkfJdv/3a2DyBsY4PEHn1YB2FDKJk/img.png');
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 10;
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 2rem;
-            border-radius: 1rem;
-        }
-
-        /* PC 버전 */
-        @media (min-width: 768px) {
-            .header-slider {
-                display: none;
-            }
-
-            .header-pc {
-                display: flex;
-                justify-content: space-between;
-                gap: 1rem;
-                padding: 1rem;
-                height: 200px;
-            }
-
-            .header-image {
-                flex: 1;
-                border-radius: 1rem;
-                overflow: hidden;
-                position: relative;
-            }
-
-            .header-image img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-
-        /* 모바일에서는 PC 버전 숨기기 */
-        @media (max-width: 767px) {
-            .header-pc {
-                display: none;
-            }
-        }
+    }
+   
+      .timer-alarm-container {
+          display: flex;
+          gap: 1rem;
+      }
+      .memo-container textarea {
+        min-height: 150px;
+    }
     </style>
 </head>
 
